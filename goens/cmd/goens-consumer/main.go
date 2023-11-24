@@ -22,7 +22,7 @@ func main() {
 	}
 
 	for _, topic := range topics {
-		log.Printf("Subscrib topic \"%s\"\n", topic)
+		log.Printf("Subscrib topic \"%s\".\n", topic)
 		err = client.Subscribe(conn, topic)
 		if err != nil {
 			log.Printf("Error when subscribing topics, %s.\n", err)
@@ -37,6 +37,6 @@ func main() {
 			log.Println(err)
 			continue
 		}
-		log.Printf("Received Event, topic: \"%s\", message: \"%s\"\n", msg.Topic, msg.Message)
+		log.Printf("Received Event, topic: \"%s\", message: \"%s\".\n", msg.Topic, msg.Message)
 	}
 }

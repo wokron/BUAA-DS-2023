@@ -43,8 +43,8 @@ var (
 )
 
 func flagInit() {
-	flag.StringVar(&serverName, "server", "localhost", "address of ENS server")
-	flag.IntVar(&port, "port", 4567, "the port of event notification sercice")
-	flag.Var(&events, "event", "event you want to publish, the format should be <topic>:<message>")
+	flag.StringVar(&serverName, "server", "localhost", "Address of ENS server")
+	flag.IntVar(&port, "port", 4567, "The port of event notification sercice")
+	flag.Var(&events, "event", "Event you want to publish, the format should be <topic>:<message>")
 	flag.Parse()
 }

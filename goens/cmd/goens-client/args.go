@@ -8,7 +8,7 @@ var (
 )
 
 func flagInit() {
-	flag.StringVar(&serverName, "server", "localhost", "address of ENS server")
-	flag.IntVar(&port, "port", 4567, "the port of event notification sercice")
+	flag.StringVar(&serverName, "server", "localhost", "Address of ENS server")
+	flag.IntVar(&port, "port", 4567, "The port of event notification sercice")
 	flag.Parse()
 }
