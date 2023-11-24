@@ -7,10 +7,16 @@ import (
 	"io"
 	"log"
 	"net"
+	"strconv"
 	"time"
 )
 
+func init() {
+	flagInit()
+}
+
 func listenEvents(conn net.Conn, done chan struct{}) {
+	log.Println("Start listening events from server.")
 	for {
 		select {
 		case <-done:
@@ -28,7 +34,7 @@ func listenEvents(conn net.Conn, done chan struct{}) {
 				continue
 			}
 
-			fmt.Printf("%s: %s\n", msg.Topic, msg.Message)
+			log.Printf("Received Event, topic: \"%s\", message: \"%s\"\n", msg.Topic, msg.Message)
 		}
 	}
 }
@@ -40,7 +46,9 @@ func nextToken() string {
 }
 
 func main() {
-	conn, err := client.CreateENSConn("localhost:4567")
+	serverAddr := serverName + ":" + strconv.Itoa(port)
+
+	conn, err := client.CreateENSConn(serverAddr)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -77,7 +85,9 @@ loop:
 			client.Unsubscribe(conn, topic)
 
 		default:
-			fmt.Println("cmd unknown:", cmd)
+			fmt.Printf("Command unknown: \"%s\".\n", cmd)
 		}
 	}
+
+	log.Println("Exit success.")
 }
