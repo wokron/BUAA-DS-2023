@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"net"
 	"sync"
 )
@@ -52,6 +51,5 @@ func (table *SubscribeTable) GetSubscribers(topic string) (subscribers []net.Con
 
 	subscribers = make([]net.Conn, len(table.subs[topic]))
 	copy(subscribers, table.subs[topic])
-	log.Print(len(subscribers))
 	return
 }
