@@ -39,7 +39,7 @@ fn handle_subscribe(stream: &mut TcpStream, topics: Vec<String>) {
     loop {
         if let Ok(msg) = recv_ens_msg(stream) {
             println!(
-                "Received Event, topic: \"{}\", message: \"{}\".",
+                "Receive event, topic: \"{}\", message: \"{}\".",
                 msg.topic, msg.message
             );
         } else {
