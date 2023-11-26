@@ -14,7 +14,7 @@ if __name__ == "__main__":
                 setattr(namespace, self.dest, list())
 
             for value in values:
-                key, value = value.split("=")
+                key, value = value.split(":")
                 getattr(namespace, self.dest).append((key, value))
 
     subparsers = parser.add_subparsers()
