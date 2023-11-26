@@ -6,10 +6,10 @@ use super::{
 };
 use std::io::Result;
 
-pub fn publish(stream: &mut TcpStream, topic: String, message: &String) -> Result<()> {
+pub fn publish(stream: &mut TcpStream, topic: &String, message: &String) -> Result<()> {
     let msg = ENSMsg {
         msg_type: ENSMsgType::PUBLISH as u8,
-        topic,
+        topic: topic.to_string(),
         message: message.to_string(),
     };
 

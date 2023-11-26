@@ -2,7 +2,10 @@ use std::net::TcpStream;
 
 use args::Args;
 use clap::Parser;
-use enslib::{client::subscribe, conn::recv_ens_msg};
+use enslib::{
+    client::{publish, subscribe},
+    conn::recv_ens_msg,
+};
 
 mod args;
 mod enslib;
@@ -10,27 +13,31 @@ mod enslib;
 fn main() {
     let args = Args::parse();
 
-    match args.command {
-        args::Commands::Publish { event } => println!("{}:{}", event.get(0).unwrap().0, event.get(0).unwrap().1),
-        args::Commands::Subscribe { topic } => println!("{}", topic.get(0).unwrap())
+    let addr: String = args.server + ":" + &args.port.to_string();
+
+    if let Ok(mut stream) = TcpStream::connect(addr) {
+        match args.command {
+            args::Commands::Publish { event } => {
+                handle_publish(&mut stream, event);
+            }
+            args::Commands::Subscribe { topic } => {
+                handle_subscribe(&mut stream, topic);
+            }
+        }
+    } else {
+        println!("Couldn't connect to server");
     }
+}
 
-    let mut stream = TcpStream::connect("localhost:4567").unwrap();
-
-    let topics = vec![
-        String::from("topic1"),
-        String::from("topic2"),
-        String::from("topic3"),
-    ];
-
+fn handle_subscribe(stream: &mut TcpStream, topics: Vec<String>) {
     for topic in &topics {
-        if let Err(err) = subscribe(&mut stream, topic) {
+        if let Err(err) = subscribe(stream, topic) {
             println!("Fail to subscribe topic \"{}\", {}", topic, err);
         }
     }
 
     loop {
-        if let Some(msg) = recv_ens_msg(&mut stream) {
+        if let Some(msg) = recv_ens_msg(stream) {
             println!(
                 "Received Event, topic: \"{}\", message: \"{}\".",
                 msg.topic, msg.message
@@ -39,4 +46,19 @@ fn main() {
             println!("error when receiving")
         }
     }
+}
+
+fn handle_publish(stream: &mut TcpStream, events: Vec<(String, String)>) {
+    for event in &events {
+        let topic = &event.0;
+        let message = &event.1;
+
+        if let Err(err) = publish(stream, topic, message) {
+            println!(
+                "Fail to publish event on topic \"{}\", message: \"{}\". {}.",
+                topic, message, err
+            );
+        }
+    }
+    println!("Publishing events finished.")
 }
