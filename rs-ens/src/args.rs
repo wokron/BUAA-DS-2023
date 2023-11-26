@@ -1,6 +1,5 @@
-use std::error::Error;
-
 use clap::{Parser, Subcommand};
+use std::error::Error;
 
 #[derive(Parser)]
 pub struct Args {

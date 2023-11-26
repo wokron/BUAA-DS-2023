@@ -1,10 +1,9 @@
-use std::net::TcpStream;
-
 use super::{
     conn::send_ens_msg,
     msg::{ENSMsg, ENSMsgType},
 };
 use anyhow::{Ok, Result};
+use std::net::TcpStream;
 
 pub fn publish(stream: &mut TcpStream, topic: &String, message: &String) -> Result<()> {
     let msg = ENSMsg {

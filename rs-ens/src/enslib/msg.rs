@@ -1,4 +1,4 @@
-use anyhow::{Result, Ok};
+use anyhow::{Ok, Result};
 use std::{cmp, mem};
 
 const MAX_TOPIC_LENGTH: usize = 50;

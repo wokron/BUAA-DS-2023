@@ -1,10 +1,9 @@
+use super::msg::{ENSMsg, ENS_MGS_SIZE};
+use anyhow::Result;
 use std::{
     io::{Read, Write},
     net::TcpStream,
 };
-
-use super::msg::{ENSMsg, ENS_MGS_SIZE};
-use anyhow::Result;
 
 pub fn send_ens_msg(stream: &mut TcpStream, msg: &ENSMsg) -> Result<()> {
     let data = msg.encode();

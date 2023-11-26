@@ -1,4 +1,7 @@
-use std::net::TcpStream;
+mod args;
+
+#[allow(dead_code)]
+mod enslib;
 
 use args::Args;
 use clap::Parser;
@@ -6,10 +9,7 @@ use enslib::{
     client::{publish, subscribe},
     conn::recv_ens_msg,
 };
-mod args;
-
-#[allow(dead_code)]
-mod enslib;
+use std::net::TcpStream;
 
 fn main() {
     let args = Args::parse();
