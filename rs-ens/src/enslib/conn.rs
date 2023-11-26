@@ -17,7 +17,7 @@ pub fn send_ens_msg(stream: &mut TcpStream, msg: &ENSMsg) -> Result<()> {
 pub fn recv_ens_msg(stream: &mut TcpStream) -> Option<ENSMsg> {
     let mut recv_data: [u8; 101] = [0u8; ENS_MGS_SIZE];
 
-    if let Err(_) = stream.read_exact(recv_data.as_mut_slice()) {
+    if let Err(_) = stream.read_exact(&mut recv_data) {
         return None;
     }
 
