@@ -6,7 +6,7 @@ pub struct Args {
     #[arg(short, long, default_value_t = String::from("localhost"))]
     pub server: String,
 
-    #[arg(short, long, default_value_t = 3456)]
+    #[arg(short, long, default_value_t = 4567)]
     pub port: i32,
 
     #[command(subcommand)]

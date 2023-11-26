@@ -6,7 +6,7 @@ from conn import ENSConnection
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--server", "-s", type=str, default="localhost")
-    parser.add_argument("--port", "-p", type=int, default="4567")
+    parser.add_argument("--port", "-p", type=int, default=4567)
 
     class process_key_calue(argparse.Action):
         def __call__(self, parser, namespace, values, option_string=None):
