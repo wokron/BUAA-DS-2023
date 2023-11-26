@@ -6,8 +6,9 @@ use enslib::{
     client::{publish, subscribe},
     conn::recv_ens_msg,
 };
-
 mod args;
+
+#[allow(dead_code)]
 mod enslib;
 
 fn main() {
