@@ -4,7 +4,7 @@ use super::{
     conn::send_ens_msg,
     msg::{ENSMsg, ENSMsgType},
 };
-use std::io::Result;
+use anyhow::{Ok, Result};
 
 pub fn publish(stream: &mut TcpStream, topic: &String, message: &String) -> Result<()> {
     let msg = ENSMsg {
@@ -13,7 +13,8 @@ pub fn publish(stream: &mut TcpStream, topic: &String, message: &String) -> Resu
         message: message.to_string(),
     };
 
-    return send_ens_msg(stream, &msg);
+    send_ens_msg(stream, &msg)?;
+    Ok(())
 }
 
 pub fn subscribe(stream: &mut TcpStream, topic: &String) -> Result<()> {
@@ -23,7 +24,8 @@ pub fn subscribe(stream: &mut TcpStream, topic: &String) -> Result<()> {
         message: String::new(),
     };
 
-    return send_ens_msg(stream, &msg);
+    send_ens_msg(stream, &msg)?;
+    Ok(())
 }
 
 pub fn unsubscribe(stream: &mut TcpStream, topic: &String) -> Result<()> {
@@ -33,5 +35,6 @@ pub fn unsubscribe(stream: &mut TcpStream, topic: &String) -> Result<()> {
         message: String::new(),
     };
 
-    return send_ens_msg(stream, &msg);
+    send_ens_msg(stream, &msg)?;
+    Ok(())
 }

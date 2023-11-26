@@ -4,7 +4,7 @@ use std::{
 };
 
 use super::msg::{ENSMsg, ENS_MGS_SIZE};
-use std::io::Result;
+use anyhow::Result;
 
 pub fn send_ens_msg(stream: &mut TcpStream, msg: &ENSMsg) -> Result<()> {
     let data = msg.encode();
@@ -14,12 +14,10 @@ pub fn send_ens_msg(stream: &mut TcpStream, msg: &ENSMsg) -> Result<()> {
     return Ok(());
 }
 
-pub fn recv_ens_msg(stream: &mut TcpStream) -> Option<ENSMsg> {
+pub fn recv_ens_msg(stream: &mut TcpStream) -> Result<ENSMsg> {
     let mut recv_data: [u8; 101] = [0u8; ENS_MGS_SIZE];
 
-    if let Err(_) = stream.read_exact(&mut recv_data) {
-        return None;
-    }
+    stream.read_exact(&mut recv_data)?;
 
     return ENSMsg::decode(&recv_data.to_vec());
 }

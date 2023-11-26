@@ -1,3 +1,4 @@
+use anyhow::{Result, Ok};
 use std::{cmp, mem};
 
 const MAX_TOPIC_LENGTH: usize = 50;
@@ -37,20 +38,17 @@ impl ENSMsgData {
         msg
     }
 
-    fn to_msg(&self) -> Option<ENSMsg> {
-        if let (Ok(topic_str), Ok(message_str)) = (
-            String::from_utf8(self.topic.to_vec()),
-            String::from_utf8(self.message.to_vec()),
-        ) {
-            let msg = ENSMsg {
-                msg_type: self.msg_type,
-                topic: topic_str,
-                message: message_str,
-            };
-            Some(msg)
-        } else {
-            None
-        }
+    fn to_msg(&self) -> Result<ENSMsg> {
+        let topic_str = String::from_utf8(self.topic.to_vec())?;
+        let message_str = String::from_utf8(self.message.to_vec())?;
+
+        let msg = ENSMsg {
+            msg_type: self.msg_type,
+            topic: topic_str,
+            message: message_str,
+        };
+
+        Ok(msg)
     }
 }
 
@@ -85,7 +83,7 @@ impl ENSMsg {
         data
     }
 
-    pub fn decode(data: &Vec<u8>) -> Option<ENSMsg> {
+    pub fn decode(data: &Vec<u8>) -> Result<ENSMsg> {
         let msg_data = ENSMsgData::decode(data);
         msg_data.to_msg()
     }
