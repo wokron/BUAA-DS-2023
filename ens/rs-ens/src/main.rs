@@ -9,9 +9,12 @@ use enslib::{
     client::{publish, subscribe},
     conn::recv_ens_msg,
 };
+use log::{error, info};
 use std::net::TcpStream;
 
 fn main() {
+    env_logger::init();
+
     let args = Args::parse();
 
     let addr: String = args.server + ":" + &args.port.to_string();
@@ -26,25 +29,25 @@ fn main() {
             }
         }
     } else {
-        println!("Couldn't connect to server");
+        error!("Couldn't connect to server");
     }
 }
 
 fn handle_subscribe(stream: &mut TcpStream, topics: Vec<String>) {
     for topic in &topics {
         if let Err(err) = subscribe(stream, topic) {
-            println!("Fail to subscribe topic \"{}\", {}", topic, err);
+            error!("Fail to subscribe topic \"{}\", {}", topic, err);
         }
     }
 
     loop {
         if let Ok(msg) = recv_ens_msg(stream) {
-            println!(
+            info!(
                 "Receive event, topic: \"{}\", message: \"{}\".",
                 msg.topic, msg.message
             );
         } else {
-            println!("error when receiving")
+            error!("error when receiving")
         }
     }
 }
@@ -55,11 +58,11 @@ fn handle_publish(stream: &mut TcpStream, events: Vec<(String, String)>) {
         let message = &event.1;
 
         if let Err(err) = publish(stream, topic, message) {
-            println!(
+            error!(
                 "Fail to publish event on topic \"{}\", message: \"{}\". {}.",
                 topic, message, err
             );
         }
     }
-    println!("Publishing events finished.")
+    info!("Publishing events finished.")
 }
