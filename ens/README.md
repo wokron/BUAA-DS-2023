@@ -56,6 +56,8 @@ Options:
   -h, --help           Print help
 ```
 
+> 注意 rs-ens 的默认日志等级为 error。因此想要查看 info 信息还需在命令前加上 `RUST_LOG=info`。
+
 ## py-ens
 和 rs-ens 类似，同样实现了一个命令行程序，可以订阅事件并从服务器接收消息，或者向服务器发布事件。
 
