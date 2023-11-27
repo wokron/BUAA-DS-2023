@@ -35,6 +35,7 @@ fn main() {
 
 fn handle_subscribe(stream: &mut TcpStream, topics: Vec<String>) {
     for topic in &topics {
+        info!("Subscribe topic \"{}\"", topic);
         if let Err(err) = subscribe(stream, topic) {
             error!("Fail to subscribe topic \"{}\", {}", topic, err);
         }

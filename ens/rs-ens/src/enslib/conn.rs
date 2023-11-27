@@ -14,7 +14,7 @@ pub fn send_ens_msg(stream: &mut TcpStream, msg: &ENSMsg) -> Result<()> {
 }
 
 pub fn recv_ens_msg(stream: &mut TcpStream) -> Result<ENSMsg> {
-    let mut recv_data: [u8; 101] = [0u8; ENS_MGS_SIZE];
+    let mut recv_data = [0u8; ENS_MGS_SIZE];
 
     stream.read_exact(&mut recv_data)?;
 
